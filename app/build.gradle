@@ -38,4 +38,5 @@ android {
 
 dependencies {
     compile "com.android.support:appcompat-v7:24.1.0"
+    provided "org.projectlombok:lombok:1.16.10"
 }
