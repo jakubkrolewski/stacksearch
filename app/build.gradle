@@ -1,5 +1,6 @@
 ext {
     versions = [
+            dagger: "2.5",
             retrofit: "2.1.0",
             rxjava: "1.1.7",
             support: "24.1.0"
@@ -18,6 +19,7 @@ buildscript {
 }
 
 apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'me.tatarka.retrolambda'
 
 android {
@@ -56,8 +58,11 @@ android {
 }
 
 dependencies {
+    apt "com.google.dagger:dagger-compiler:$versions.dagger"
+
     compile "com.android.support:appcompat-v7:$versions.support"
     compile "com.artemzin.rxjava:proguard-rules:$versions.rxjava.0"
+    compile "com.google.dagger:dagger:$versions.dagger"
     compile "com.google.guava:guava:18.0"
     compile "com.squareup.retrofit2:adapter-rxjava:$versions.retrofit"
     compile "com.squareup.retrofit2:converter-moshi:$versions.retrofit"
