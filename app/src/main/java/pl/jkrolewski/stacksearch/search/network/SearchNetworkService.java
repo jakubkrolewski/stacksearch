@@ -13,5 +13,5 @@ public interface SearchNetworkService {
     @NonNull
     @CheckResult
     @GET("2.2/search?site=stackoverflow")
-    Observable<SearchResponse> findQuestions(@NonNull @Query("intitle") String phrase);
+    Observable<SearchResponse> findQuestions(@NonNull @Query("intitle") String query);
 }

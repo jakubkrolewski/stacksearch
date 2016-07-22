@@ -2,7 +2,10 @@ package pl.jkrolewski.stacksearch.search.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.trello.rxlifecycle.ActivityEvent;
@@ -37,7 +40,6 @@ public class SearchActivity extends RxAppCompatActivity {
 
         injectDependencies();
         setupView();
-        loadData();
     }
 
     private void injectDependencies() {
@@ -52,8 +54,33 @@ public class SearchActivity extends RxAppCompatActivity {
         setSupportActionBar(toolbar);
     }
 
-    private void loadData() {
-        searchNetworkService.findQuestions("test")
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.search, menu);
+
+        MenuItem searchMenuItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) searchMenuItem.getActionView();
+        setupSearchView(searchView);
+        return true;
+    }
+
+    private void setupSearchView(SearchView searchView) {
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                loadResults(query);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
+            }
+        });
+    }
+
+    private void loadResults(@NonNull String query) {
+        searchNetworkService.findQuestions(query)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose(bindUntilEvent(ActivityEvent.DESTROY))
