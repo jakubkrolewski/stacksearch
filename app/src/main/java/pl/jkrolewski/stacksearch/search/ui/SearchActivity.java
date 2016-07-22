@@ -64,7 +64,8 @@ public class SearchActivity extends RxAppCompatActivity {
         return true;
     }
 
-    private void setupSearchView(SearchView searchView) {
+    private void setupSearchView(@NonNull SearchView searchView) {
+        searchView.setIconifiedByDefault(false);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
