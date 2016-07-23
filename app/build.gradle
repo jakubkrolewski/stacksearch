@@ -2,6 +2,7 @@ ext {
     versions = [
             butterknife: "8.2.1",
             dagger: "2.5",
+            guava: "18.0",
             retrofit: "2.1.0",
             rxjava: "1.1.7",
             support: "24.1.1"
@@ -14,6 +15,7 @@ buildscript {
         all {
             resolutionStrategy {
                 force "com.android.support:support-annotations:$versions.support"
+                force "com.google.guava:guava:$versions.guava"
             }
         }
     }
@@ -51,10 +53,12 @@ android {
             versionNameSuffix " DEBUG PROGUARD"
         }
     }
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+    dataBinding {
+        enabled = true
     }
 }
 
@@ -63,11 +67,12 @@ dependencies {
     apt "com.jakewharton:butterknife-compiler:$versions.butterknife"
 
     compile "com.android.support:appcompat-v7:$versions.support"
+    compile "com.android.support:cardview-v7:$versions.support"
     compile "com.android.support:design:$versions.support"
     compile "com.android.support:recyclerview-v7:$versions.support"
     compile "com.artemzin.rxjava:proguard-rules:$versions.rxjava.0"
     compile "com.google.dagger:dagger:$versions.dagger"
-    compile "com.google.guava:guava:18.0"
+    compile "com.google.guava:guava:$versions.guava"
     compile "com.jakewharton:butterknife:$versions.butterknife"
     compile "com.jakewharton.timber:timber:4.1.2"
     compile "com.squareup.okhttp3:logging-interceptor:3.4.1"
@@ -82,4 +87,6 @@ dependencies {
 
     testCompile 'junit:junit:4.12'
     testCompile 'com.squareup.assertj:assertj-android:1.1.1'
+    testCompile 'org.mockito:mockito-core:1.10.19'
+    testCompile "org.robolectric:robolectric:3.1.1"
 }

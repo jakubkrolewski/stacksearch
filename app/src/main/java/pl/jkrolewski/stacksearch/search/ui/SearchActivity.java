@@ -22,6 +22,7 @@ import pl.jkrolewski.stacksearch.base.dagger.ApplicationComponentProvider;
 import pl.jkrolewski.stacksearch.search.SearchModule;
 import pl.jkrolewski.stacksearch.search.model.SearchResponse;
 import pl.jkrolewski.stacksearch.search.network.SearchNetworkService;
+import pl.jkrolewski.stacksearch.search.ui.results.ResultsView;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
@@ -33,6 +34,9 @@ public class SearchActivity extends RxAppCompatActivity {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+
+    @BindView(R.id.results)
+    ResultsView resultsView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -92,7 +96,7 @@ public class SearchActivity extends RxAppCompatActivity {
     }
 
     private void handleSearchResponse(@NonNull SearchResponse response) {
-        Timber.d("Search response: %s", response);
+        resultsView.setQuestions(response.getItems());
     }
 
     private void handleSearchError(Throwable error) {
