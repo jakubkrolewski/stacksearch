@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <issue id="InvalidPackage">
+        <ignore regexp="retrofit-.*.jar"/>
+        <ignore regexp="okio-.*.jar"/>
+        <!-- Retrolambda can handle that -->
+        <ignore regexp="Try-with-resources requires API level 19"/>
+    </issue>
+
+    <issue id="ResourceType">
+        <ignore path="**/*$$ViewBinder.java"/>
+    </issue>
+</lint>
