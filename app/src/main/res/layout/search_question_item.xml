@@ -23,7 +23,8 @@
                 android:id="@+id/avatar"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                tools:src="@mipmap/ic_launcher"/>
+                tools:src="@mipmap/ic_launcher"
+                app:imageUrl="@{question.owner != null ? question.owner.profileImage : null}"/>
 
             <TextView
                 android:layout_toRightOf="@id/avatar"

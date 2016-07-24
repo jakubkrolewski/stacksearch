@@ -71,6 +71,7 @@ dependencies {
     compile "com.android.support:design:$versions.support"
     compile "com.android.support:recyclerview-v7:$versions.support"
     compile "com.artemzin.rxjava:proguard-rules:$versions.rxjava.0"
+    compile 'com.github.bumptech.glide:glide:3.7.0'
     compile "com.google.dagger:dagger:$versions.dagger"
     compile "com.google.guava:guava:$versions.guava"
     compile "com.jakewharton:butterknife:$versions.butterknife"
