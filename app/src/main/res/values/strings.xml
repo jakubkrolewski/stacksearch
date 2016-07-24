@@ -1,5 +1,7 @@
 <resources>
     <string name="general_app_name">Stack Search</string>
-    <string name="search_menu_search">Search</string>
+    <string name="search_answers_count_label">answers</string>
     <string name="search_error">Uups! Something went wrong! Try again later.</string>
+    <string name="search_menu_search">Search</string>
+    <string name="search_owner_label">Asked by</string>
 </resources>
