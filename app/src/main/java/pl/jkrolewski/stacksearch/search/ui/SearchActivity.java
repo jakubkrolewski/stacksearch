@@ -8,32 +8,21 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.trello.rxlifecycle.ActivityEvent;
-import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
-
-import javax.inject.Inject;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import lombok.NonNull;
+import nucleus.factory.RequiresPresenter;
+import nucleus.view.NucleusAppCompatActivity;
 import pl.jkrolewski.stacksearch.R;
-import pl.jkrolewski.stacksearch.base.dagger.ApplicationComponent;
-import pl.jkrolewski.stacksearch.base.dagger.ApplicationComponentProvider;
 import pl.jkrolewski.stacksearch.details.SimpleWebViewActivity;
-import pl.jkrolewski.stacksearch.search.SearchModule;
 import pl.jkrolewski.stacksearch.search.model.SearchResponse;
-import pl.jkrolewski.stacksearch.search.network.SearchNetworkService;
 import pl.jkrolewski.stacksearch.search.ui.results.ResultsView;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-public class SearchActivity extends RxAppCompatActivity {
-
-    @Inject
-    SearchNetworkService searchNetworkService;
+@RequiresPresenter(SearchPresenter.class)
+public class SearchActivity extends NucleusAppCompatActivity<SearchPresenter> {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -47,14 +36,7 @@ public class SearchActivity extends RxAppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        injectDependencies();
         setupView();
-    }
-
-    private void injectDependencies() {
-        ApplicationComponentProvider.<ApplicationComponent>fromContext(this)
-                .plus(new SearchModule())
-                .inject(this);
     }
 
     private void setupView() {
@@ -73,9 +55,7 @@ public class SearchActivity extends RxAppCompatActivity {
     }
 
     private void setupResultsView() {
-        resultsView.setOnItemClickListener((view, item) -> {
-            openLink(item.getLink());
-        });
+        resultsView.setOnItemClickListener((view, item) -> openLink(item.getLink()));
 
         disableSwipeRefresh();
         resultsView.setOnRefreshListener(() -> loadResults(searchView.getQuery().toString()));
@@ -116,26 +96,19 @@ public class SearchActivity extends RxAppCompatActivity {
         disableSwipeRefresh();
         resultsView.setRefreshing(true);
 
-        searchNetworkService.findQuestions(query)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .compose(bindUntilEvent(ActivityEvent.DESTROY))
-                .subscribe(
-                        this::handleSearchResponse,
-                        this::handleSearchError
-                );
+        getPresenter().executeSearch(query);
     }
 
     private void disableSwipeRefresh() {
         resultsView.setSwipeRefreshEnabled(false);
     }
 
-    private void handleSearchResponse(@NonNull SearchResponse response) {
+    void handleSearchResponse(@NonNull SearchResponse response) {
         resultsView.setQuestions(response.getItems());
         enabledSwipeRefresh();
     }
 
-    private void handleSearchError(@NonNull Throwable error) {
+    void handleSearchError(@NonNull Throwable error) {
         Timber.w(error, "Search error");
         resultsView.notifyRefreshError();
         enabledSwipeRefresh();

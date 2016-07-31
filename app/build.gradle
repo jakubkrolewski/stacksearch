@@ -80,7 +80,7 @@ dependencies {
     compile "com.squareup.retrofit2:adapter-rxjava:$versions.retrofit"
     compile "com.squareup.retrofit2:converter-moshi:$versions.retrofit"
     compile "com.squareup.retrofit2:retrofit:$versions.retrofit"
-    compile "com.trello:rxlifecycle-components:0.6.1"
+    compile "info.android15.nucleus:nucleus-support-v7:4.0.0"
     compile "io.reactivex:rxandroid:1.2.1"
     compile "io.reactivex:rxjava:$versions.rxjava"
 
