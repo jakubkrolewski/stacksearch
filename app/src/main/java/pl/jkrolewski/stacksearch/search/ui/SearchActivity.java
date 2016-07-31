@@ -19,6 +19,7 @@ import lombok.NonNull;
 import pl.jkrolewski.stacksearch.R;
 import pl.jkrolewski.stacksearch.base.dagger.ApplicationComponent;
 import pl.jkrolewski.stacksearch.base.dagger.ApplicationComponentProvider;
+import pl.jkrolewski.stacksearch.details.SimpleWebViewActivity;
 import pl.jkrolewski.stacksearch.search.SearchModule;
 import pl.jkrolewski.stacksearch.search.model.SearchResponse;
 import pl.jkrolewski.stacksearch.search.network.SearchNetworkService;
@@ -56,10 +57,21 @@ public class SearchActivity extends RxAppCompatActivity {
         setContentView(R.layout.search_activity);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
+        setupResultsView();
+    }
+
+    private void setupResultsView() {
+        resultsView.setOnItemClickListener((view, item) -> {
+            openLink(item.getLink());
+        });
+    }
+
+    private void openLink(@NonNull String link) {
+        startActivity(SimpleWebViewActivity.createIntent(this, link));
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(@NonNull Menu menu) {
         getMenuInflater().inflate(R.menu.search, menu);
 
         MenuItem searchMenuItem = menu.findItem(R.id.action_search);
@@ -99,7 +111,7 @@ public class SearchActivity extends RxAppCompatActivity {
         resultsView.setQuestions(response.getItems());
     }
 
-    private void handleSearchError(Throwable error) {
+    private void handleSearchError(@NonNull Throwable error) {
         Timber.w(error, "Search error");
         Toast.makeText(this, R.string.search_error, Toast.LENGTH_SHORT).show();
     }

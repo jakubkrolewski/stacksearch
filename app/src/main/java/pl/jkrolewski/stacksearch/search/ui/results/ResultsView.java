@@ -9,6 +9,7 @@ import android.util.AttributeSet;
 import java.util.List;
 
 import lombok.NonNull;
+import pl.jkrolewski.stacksearch.base.ui.OnItemClickListener;
 import pl.jkrolewski.stacksearch.base.ui.VerticalSpaceItemDecoration;
 import pl.jkrolewski.stacksearch.base.util.UnitConverter;
 import pl.jkrolewski.stacksearch.search.model.Question;
@@ -40,5 +41,9 @@ public class ResultsView extends RecyclerView {
 
     public void setQuestions(@NonNull List<Question> questions) {
         adapter.setItems(questions);
+    }
+
+    public void setOnItemClickListener(@Nullable OnItemClickListener<Question> onItemClickListener) {
+        adapter.setOnItemClickListener(onItemClickListener);
     }
 }

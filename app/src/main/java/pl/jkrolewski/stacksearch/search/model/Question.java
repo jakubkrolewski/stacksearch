@@ -16,6 +16,8 @@ public class Question {
 
     User owner;
 
+    String link;
+
     @NonNull
     public String getTitle() {
         return title;
@@ -28,5 +30,10 @@ public class Question {
     @Nullable
     public User getOwner() {
         return owner;
+    }
+
+    @NonNull
+    public String getLink() {
+        return link;
     }
 }
