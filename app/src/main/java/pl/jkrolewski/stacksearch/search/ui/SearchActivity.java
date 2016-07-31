@@ -100,6 +100,7 @@ public class SearchActivity extends RxAppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                searchView.clearFocus();
                 loadResults(query);
                 return true;
             }
