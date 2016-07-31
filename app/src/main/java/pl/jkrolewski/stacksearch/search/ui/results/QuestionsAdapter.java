@@ -1,6 +1,7 @@
 package pl.jkrolewski.stacksearch.search.ui.results;
 
 import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,7 +35,7 @@ class QuestionsAdapter extends BaseRecyclerViewAdapter<Question, QuestionsAdapte
         this.onItemClickListener = EmptyOnItemClickListener.emptyForNull(onItemClickListener);
     }
 
-    class QuestionViewHolder extends ResultsView.ViewHolder implements View.OnClickListener {
+    class QuestionViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private final SearchQuestionItemBinding binding;
 

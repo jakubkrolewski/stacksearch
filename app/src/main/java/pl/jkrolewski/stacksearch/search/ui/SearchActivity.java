@@ -7,7 +7,6 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.trello.rxlifecycle.ActivityEvent;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
@@ -42,6 +41,8 @@ public class SearchActivity extends RxAppCompatActivity {
     @BindView(R.id.results)
     ResultsView resultsView;
 
+    private SearchView searchView;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +76,8 @@ public class SearchActivity extends RxAppCompatActivity {
         resultsView.setOnItemClickListener((view, item) -> {
             openLink(item.getLink());
         });
+
+        resultsView.setOnRefreshListener(() -> loadResults(searchView.getQuery().toString()));
     }
 
     private void openLink(@NonNull String link) {
@@ -86,7 +89,7 @@ public class SearchActivity extends RxAppCompatActivity {
         getMenuInflater().inflate(R.menu.search, menu);
 
         MenuItem searchMenuItem = menu.findItem(R.id.action_search);
-        SearchView searchView = (SearchView) searchMenuItem.getActionView();
+        searchView = (SearchView) searchMenuItem.getActionView();
         setupSearchView(searchView);
         return true;
     }
@@ -124,6 +127,6 @@ public class SearchActivity extends RxAppCompatActivity {
 
     private void handleSearchError(@NonNull Throwable error) {
         Timber.w(error, "Search error");
-        Toast.makeText(this, R.string.search_error, Toast.LENGTH_SHORT).show();
+        resultsView.notifyRefreshError();
     }
 }
