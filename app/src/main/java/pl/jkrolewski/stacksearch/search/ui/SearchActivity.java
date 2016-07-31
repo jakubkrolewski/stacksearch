@@ -2,6 +2,7 @@ package pl.jkrolewski.stacksearch.search.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
@@ -30,7 +31,8 @@ public class SearchActivity extends NucleusAppCompatActivity<SearchPresenter> {
     @BindView(R.id.results)
     ResultsView resultsView;
 
-    private SearchView searchView;
+    @VisibleForTesting
+    SearchView searchView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

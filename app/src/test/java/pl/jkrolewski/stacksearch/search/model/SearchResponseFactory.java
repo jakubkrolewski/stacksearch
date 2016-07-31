@@ -1,0 +1,34 @@
+package pl.jkrolewski.stacksearch.search.model;
+
+import android.annotation.TargetApi;
+import android.os.Build;
+
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+
+@TargetApi(Build.VERSION_CODES.N)
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public class SearchResponseFactory {
+
+    @NonNull
+    public static SearchResponse create() {
+        return new SearchResponse(createQuestions());
+    }
+
+    @NonNull
+    private static List<Question> createQuestions() {
+        return IntStream.rangeClosed(1, 2)
+                .mapToObj(SearchResponseFactory::createQuestion)
+                .collect(Collectors.toList());
+    }
+
+    @NonNull
+    private static Question createQuestion(int seed) {
+        return new Question("title" + seed, seed, null, "http://" + seed + ".com");
+    }
+}
