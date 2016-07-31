@@ -2,6 +2,7 @@ package pl.jkrolewski.stacksearch.search.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -27,6 +28,8 @@ import pl.jkrolewski.stacksearch.search.ui.results.ResultsView;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 public class SearchActivity extends RxAppCompatActivity {
 
@@ -56,8 +59,16 @@ public class SearchActivity extends RxAppCompatActivity {
     private void setupView() {
         setContentView(R.layout.search_activity);
         ButterKnife.bind(this);
-        setSupportActionBar(toolbar);
+        setUpToolbar();
         setupResultsView();
+    }
+
+    private void setUpToolbar() {
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = checkNotNull(getSupportActionBar());
+
+        actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setIcon(R.mipmap.ic_launcher);
     }
 
     private void setupResultsView() {
