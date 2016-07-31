@@ -77,6 +77,7 @@ public class SearchActivity extends RxAppCompatActivity {
             openLink(item.getLink());
         });
 
+        disableSwipeRefresh();
         resultsView.setOnRefreshListener(() -> loadResults(searchView.getQuery().toString()));
     }
 
@@ -111,6 +112,8 @@ public class SearchActivity extends RxAppCompatActivity {
     }
 
     private void loadResults(@NonNull String query) {
+        disableSwipeRefresh();
+
         searchNetworkService.findQuestions(query)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -121,12 +124,22 @@ public class SearchActivity extends RxAppCompatActivity {
                 );
     }
 
+    private void disableSwipeRefresh() {
+        resultsView.setSwipeRefreshEnabled(false);
+    }
+
     private void handleSearchResponse(@NonNull SearchResponse response) {
         resultsView.setQuestions(response.getItems());
+        enabledSwipeRefresh();
     }
 
     private void handleSearchError(@NonNull Throwable error) {
         Timber.w(error, "Search error");
         resultsView.notifyRefreshError();
+        enabledSwipeRefresh();
+    }
+
+    private void enabledSwipeRefresh() {
+        resultsView.setSwipeRefreshEnabled(true);
     }
 }

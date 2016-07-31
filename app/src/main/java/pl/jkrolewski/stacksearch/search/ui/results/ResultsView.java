@@ -71,4 +71,8 @@ public class ResultsView extends SwipeRefreshLayout {
     public void setOnItemClickListener(@Nullable OnItemClickListener<Question> onItemClickListener) {
         adapter.setOnItemClickListener(onItemClickListener);
     }
+
+    public void setSwipeRefreshEnabled(boolean enabled) {
+        setEnabled(enabled);
+    }
 }
