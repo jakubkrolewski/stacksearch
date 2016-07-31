@@ -72,4 +72,8 @@ public class SearchPresenter extends RxPresenter<SearchActivity> {
         this.query = query;
         start(REQUEST_SEARCH_RESULTS);
     }
+
+    public String getLastQuery() {
+        return query;
+    }
 }

@@ -77,6 +77,7 @@ public class SearchActivity extends NucleusAppCompatActivity<SearchPresenter> {
 
     private void setupSearchView(@NonNull SearchView searchView) {
         searchView.setIconifiedByDefault(false);
+        searchView.setQuery(getPresenter().getLastQuery(), false);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
