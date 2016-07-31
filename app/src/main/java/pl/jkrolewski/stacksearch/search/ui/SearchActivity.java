@@ -114,6 +114,7 @@ public class SearchActivity extends RxAppCompatActivity {
 
     private void loadResults(@NonNull String query) {
         disableSwipeRefresh();
+        resultsView.setRefreshing(true);
 
         searchNetworkService.findQuestions(query)
                 .subscribeOn(Schedulers.io())
