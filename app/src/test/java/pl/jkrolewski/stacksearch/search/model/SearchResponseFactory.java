@@ -17,13 +17,18 @@ public class SearchResponseFactory {
 
     @NonNull
     public static SearchResponse create() {
-        return new SearchResponse(createQuestions());
+        return create(0);
     }
 
     @NonNull
-    private static List<Question> createQuestions() {
+    public static SearchResponse create(int seed) {
+        return new SearchResponse(createQuestions(seed));
+    }
+
+    @NonNull
+    private static List<Question> createQuestions(int masterSeed) {
         return IntStream.rangeClosed(1, 2)
-                .mapToObj(SearchResponseFactory::createQuestion)
+                .mapToObj((seed) -> SearchResponseFactory.createQuestion(masterSeed +seed))
                 .collect(Collectors.toList());
     }
 

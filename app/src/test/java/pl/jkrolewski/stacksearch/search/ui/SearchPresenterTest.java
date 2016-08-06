@@ -8,7 +8,6 @@ import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 
 import pl.jkrolewski.stacksearch.base.TestStackSearchApplication;
-import pl.jkrolewski.stacksearch.rxhooks.TestRxJavaSchedulersHookManager;
 import pl.jkrolewski.stacksearch.search.SearchComponent;
 import pl.jkrolewski.stacksearch.search.model.SearchResponse;
 import pl.jkrolewski.stacksearch.search.model.SearchResponseFactory;
@@ -40,8 +39,6 @@ public class SearchPresenterTest {
             presenter.searchNetworkService = searchNetworkService;
             return null;
         }).given(searchComponent).inject(any(SearchPresenter.class));
-
-        TestRxJavaSchedulersHookManager.installImmediateScheduler();
     }
 
     @Test

@@ -2,7 +2,7 @@ ext {
     versions = [
             butterknife: "8.2.1",
             dagger: "2.5",
-            guava: "18.0",
+            guava: "19.0",
             retrofit: "2.1.0",
             rxjava: "1.1.7",
             support: "24.1.1"
@@ -81,6 +81,7 @@ dependencies {
     compile "com.squareup.retrofit2:adapter-rxjava:$versions.retrofit"
     compile "com.squareup.retrofit2:converter-moshi:$versions.retrofit"
     compile "com.squareup.retrofit2:retrofit:$versions.retrofit"
+    compile 'com.squareup.sqlbrite:sqlbrite:0.7.0'
     compile "info.android15.nucleus:nucleus-support-v7:4.0.0"
     compile "io.reactivex:rxandroid:1.2.1"
     compile "io.reactivex:rxjava:$versions.rxjava"
@@ -89,6 +90,7 @@ dependencies {
 
     testCompile 'junit:junit:4.12'
     testCompile 'com.squareup.assertj:assertj-android:1.1.1'
+    testCompile 'eu.codearte.catch-exception:catch-throwable:2.0.0-ALPHA-1'
     testCompile 'org.mockito:mockito-core:1.10.19'
     testCompile "org.robolectric:robolectric:3.1.1"
 }
