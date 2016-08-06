@@ -10,6 +10,7 @@ import lombok.NonNull;
 import nucleus.presenter.RxPresenter;
 import pl.jkrolewski.stacksearch.base.dagger.ApplicationComponentProvider;
 import pl.jkrolewski.stacksearch.search.SearchModule;
+import pl.jkrolewski.stacksearch.search.database.SearchDatabaseService;
 import pl.jkrolewski.stacksearch.search.model.SearchResponse;
 import pl.jkrolewski.stacksearch.search.network.SearchNetworkService;
 import rx.Observable;
@@ -23,6 +24,9 @@ public class SearchPresenter extends RxPresenter<SearchActivity> {
 
     @Inject
     SearchNetworkService searchNetworkService;
+
+    @Inject
+    SearchDatabaseService searchDatabaseService;
 
     private String query;
 

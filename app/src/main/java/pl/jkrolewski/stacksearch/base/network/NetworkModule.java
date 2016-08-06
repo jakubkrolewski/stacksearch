@@ -1,9 +1,12 @@
 package pl.jkrolewski.stacksearch.base.network;
 
+import com.squareup.moshi.Moshi;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import lombok.NonNull;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -18,7 +21,7 @@ public class NetworkModule {
 
     @Provides
     @Singleton
-    Retrofit getRetrofit() {
+    Retrofit provideRetrofit(@NonNull Moshi moshi) {
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(
                 message -> Timber.tag("OkHttp").d(message)
         );
@@ -30,7 +33,7 @@ public class NetworkModule {
 
         return new Retrofit.Builder()
                 .baseUrl(API_URL)
-                .addConverterFactory(MoshiConverterFactory.create())
+                .addConverterFactory(MoshiConverterFactory.create(moshi))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .client(client)
                 .build();

@@ -17,13 +17,13 @@ import rx.Single;
 
 import static android.database.sqlite.SQLiteDatabase.CONFLICT_REPLACE;
 
-public class SearchResultsDatabaseService {
+public class SearchDatabaseService {
 
     private final BriteDatabase database;
     private final JsonAdapter<SearchResponse> searchResponseJsonAdapter;
 
-    public SearchResultsDatabaseService(@NonNull BriteDatabase database,
-                                        @NonNull JsonAdapter<SearchResponse> searchResponseJsonAdapter) {
+    public SearchDatabaseService(@NonNull BriteDatabase database,
+                                 @NonNull JsonAdapter<SearchResponse> searchResponseJsonAdapter) {
         this.database = database;
         this.searchResponseJsonAdapter = searchResponseJsonAdapter;
     }

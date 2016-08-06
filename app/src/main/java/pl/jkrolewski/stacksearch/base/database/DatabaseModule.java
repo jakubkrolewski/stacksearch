@@ -18,7 +18,7 @@ public class DatabaseModule {
 
     @Provides
     @Singleton
-    BriteDatabase getBriteDatabase(@NonNull Context context) {
+    BriteDatabase provideBriteDatabase(@NonNull Context context) {
         SqlBrite sqlBrite = SqlBrite.create();
         SQLiteOpenHelper openHelper = new ApplicationDatabaseOpenHelper(context);
 

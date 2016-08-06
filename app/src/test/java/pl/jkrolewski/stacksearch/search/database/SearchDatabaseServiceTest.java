@@ -19,9 +19,9 @@ import rx.schedulers.Schedulers;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(RobolectricTestRunner.class)
-public class SearchResultsDatabaseServiceTest {
+public class SearchDatabaseServiceTest {
 
-    private SearchResultsDatabaseService databaseService;
+    private SearchDatabaseService databaseService;
 
     @Before
     public void setUp() {
@@ -30,7 +30,7 @@ public class SearchResultsDatabaseServiceTest {
                 new ApplicationDatabaseOpenHelper(RuntimeEnvironment.application), Schedulers.immediate()
         );
         JsonAdapter<SearchResponse> jsonAdapter = new Moshi.Builder().build().adapter(SearchResponse.class);
-        databaseService = new SearchResultsDatabaseService(briteDatabase, jsonAdapter);
+        databaseService = new SearchDatabaseService(briteDatabase, jsonAdapter);
     }
 
     @Test

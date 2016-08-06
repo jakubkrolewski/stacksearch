@@ -11,6 +11,7 @@ import pl.jkrolewski.stacksearch.search.SearchModule;
 
 @Singleton
 @Component(modules = {
+        ApplicationModule.class,
         NetworkModule.class,
         DatabaseModule.class
 })
