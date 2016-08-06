@@ -8,6 +8,10 @@
         android:id="@+id/results"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingBottom="@dimen/results_vertical_padding"
+        android:paddingLeft="@dimen/results_horizontal_padding"
+        android:paddingRight="@dimen/results_horizontal_padding"
+        android:paddingTop="@dimen/results_vertical_padding"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
     <android.support.design.widget.AppBarLayout
