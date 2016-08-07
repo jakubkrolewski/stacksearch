@@ -12,6 +12,7 @@ import org.robolectric.util.ActivityController;
 import pl.jkrolewski.stacksearch.search.model.SearchResponseFactory;
 
 import static org.assertj.android.api.Assertions.assertThat;
+import static org.mockito.BDDMockito.given;
 
 @RunWith(RobolectricTestRunner.class)
 public class SearchActivityTest {
@@ -24,12 +25,25 @@ public class SearchActivityTest {
     }
 
     @Test
-    public void shouldHaveSwipeRefreshDisabledWhenCreated() {
+    public void shouldHaveSwipeRefreshDisabledWhenCreatedWithEmptyQuery() {
         // when
         activityController.create();
 
         // then
         assertThat(activityController.get().resultsView).isDisabled();
+    }
+
+    @Test
+    public void shouldHaveSwipeRefreshEnabledWhenCreatedWithNotEmptyQuery() {
+        // given
+        given(activityController.get().getPresenter().getLastQuery())
+                .willReturn("some query");
+
+        // when
+        activityController.create().start().resume().visible();
+
+        // then
+        assertThat(activityController.get().resultsView).isEnabled();
     }
 
     @Test

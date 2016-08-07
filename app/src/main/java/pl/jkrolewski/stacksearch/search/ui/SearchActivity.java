@@ -6,6 +6,7 @@ import android.support.annotation.VisibleForTesting;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -79,7 +80,8 @@ public class SearchActivity extends NucleusAppCompatActivity<SearchPresenter> {
 
     private void setupSearchView(@NonNull SearchView searchView) {
         searchView.setIconifiedByDefault(false);
-        searchView.setQuery(getPresenter().getLastQuery(), false);
+        String lastQuery = getPresenter().getLastQuery();
+        searchView.setQuery(lastQuery, false);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -93,6 +95,10 @@ public class SearchActivity extends NucleusAppCompatActivity<SearchPresenter> {
                 return false;
             }
         });
+
+        if (!TextUtils.isEmpty(lastQuery)) {
+            enabledSwipeRefresh();
+        }
     }
 
     private void loadResults(@NonNull String query) {
