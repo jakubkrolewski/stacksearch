@@ -13,7 +13,7 @@ import lombok.NonNull;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ImageBindingAdapter {
 
-    @BindingAdapter("bind:imageUrl")
+    @BindingAdapter("imageUrl")
     public static void loadImage(@NonNull ImageView view, @Nullable String url) {
         if (url != null) {
             loadImageFromUrl(view, url);

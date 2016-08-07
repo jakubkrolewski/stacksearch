@@ -10,4 +10,7 @@
     <issue id="ResourceType">
         <ignore path="**/*$$ViewBinder.java"/>
     </issue>
+
+    <issue id="ContentDescription" severity="ignore" />
+    <issue id="RtlHardcoded" severity="ignore" />
 </lint>
