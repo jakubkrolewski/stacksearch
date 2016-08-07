@@ -16,10 +16,13 @@ import pl.jkrolewski.stacksearch.search.network.SearchNetworkService;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import timber.log.Timber;
 
 public class SearchPresenter extends RxPresenter<SearchActivity> {
 
-    private static final int REQUEST_SEARCH_RESULTS = 1;
+    private static final int REQUEST_DATABASE_SEARCH_RESULTS = 1;
+    private static final int REQUEST_UPDATE_DATABASE_ONLINE = 2;
+
     private static final String KEY_QUERY = "query";
 
     @Inject
@@ -36,7 +39,8 @@ public class SearchPresenter extends RxPresenter<SearchActivity> {
 
         injectDependencies();
         restoreState(savedState);
-        setupSearchRestartable();
+        setupDatabaseRestartable();
+        setupOnlineRestartable();
     }
 
     private void injectDependencies() {
@@ -51,17 +55,36 @@ public class SearchPresenter extends RxPresenter<SearchActivity> {
         }
     }
 
-    private void setupSearchRestartable() {
-        restartableLatestCache(REQUEST_SEARCH_RESULTS,
-                this::createFindQuestionsObservable,
-                SearchActivity::handleSearchResponse,
+    private void setupDatabaseRestartable() {
+        restartableLatestCache(REQUEST_DATABASE_SEARCH_RESULTS,
+                this::createLoadQuestionsFromDatabaseObservable,
+                (searchActivity, response) -> {
+                    searchActivity.handleSearchResponse(response);
+                });
+    }
+
+    private void setupOnlineRestartable() {
+        restartableFirst(REQUEST_UPDATE_DATABASE_ONLINE,
+                this::createFindQuestionsOnlineAndUpdateDatabaseObservable,
+                (searchActivity, ignored) -> Timber.d("Database updated"),
                 SearchActivity::handleSearchError);
     }
 
     @NonNull
     @CheckResult
-    private Observable<SearchResponse> createFindQuestionsObservable() {
-        return searchNetworkService.findQuestions(query)
+    private Observable<SearchResponse> createLoadQuestionsFromDatabaseObservable() {
+        return searchDatabaseService.findQuestions(query)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @NonNull
+    @CheckResult
+    private Observable<Long> createFindQuestionsOnlineAndUpdateDatabaseObservable() {
+        String queryToUse = query;
+
+        return searchNetworkService.findQuestions(queryToUse)
+                .flatMap(searchResponse -> searchDatabaseService.addOrReplaceQuestions(queryToUse, searchResponse).toObservable())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
@@ -74,7 +97,10 @@ public class SearchPresenter extends RxPresenter<SearchActivity> {
 
     public void executeSearch(@NonNull String query) {
         this.query = query;
-        start(REQUEST_SEARCH_RESULTS);
+
+        stop(REQUEST_DATABASE_SEARCH_RESULTS);
+        start(REQUEST_DATABASE_SEARCH_RESULTS);
+        start(REQUEST_UPDATE_DATABASE_ONLINE);
     }
 
     public String getLastQuery() {
