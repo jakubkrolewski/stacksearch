@@ -58,9 +58,7 @@ public class SearchPresenter extends RxPresenter<SearchActivity> {
     private void setupDatabaseRestartable() {
         restartableLatestCache(REQUEST_DATABASE_SEARCH_RESULTS,
                 this::createLoadQuestionsFromDatabaseObservable,
-                (searchActivity, response) -> {
-                    searchActivity.handleSearchResponse(response);
-                });
+                SearchActivity::handleSearchResponse);
     }
 
     private void setupOnlineRestartable() {
